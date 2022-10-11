@@ -3,7 +3,6 @@ import Lottie from 'lottie-react-native';
 import CheckAnimation from '../animations/check.json'
 
 export function Success() {
-  
   return (
     <SafeAreaView style={styles.container}>
       <Text style={styles.success}>SUCESSO!</Text>
