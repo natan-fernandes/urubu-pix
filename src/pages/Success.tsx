@@ -2,13 +2,13 @@ import { SafeAreaView, StyleSheet, Text, TouchableOpacity } from 'react-native';
 import Lottie from 'lottie-react-native';
 import CheckAnimation from '../animations/check.json'
 
-export function Success() {
+export function Success({ navigation }) {
   return (
     <SafeAreaView style={styles.container}>
       <Text style={styles.success}>SUCESSO!</Text>
       <Lottie style={styles.check} source={CheckAnimation} autoPlay loop={false} />
       <Text style={styles.title}>TRANSFERÊNCIA REALIZADA</Text>
-      <TouchableOpacity style={styles.button}>
+      <TouchableOpacity style={styles.button} onPress={() => navigation.push('Login')}>
         <Text>Confirmar</Text>
       </TouchableOpacity>
     </SafeAreaView>

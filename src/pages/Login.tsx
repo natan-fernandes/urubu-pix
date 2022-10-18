@@ -1,12 +1,12 @@
-import { SafeAreaView, StyleSheet, Image, Text, TouchableOpacity } from 'react-native';
+import { SafeAreaView, StyleSheet, Image, Text, TouchableOpacity, Button } from 'react-native';
 import LogoUrubu from '../../assets/logo.png';
 
-export function Login() {
+export function Login({ navigation }) {
   return (
     <SafeAreaView style={styles.container}>
       <Image style={styles.image} source={LogoUrubu}></Image>
       <Text style={styles.text}>Urubu do PIX</Text>
-      <TouchableOpacity style={styles.button}>
+      <TouchableOpacity style={styles.button} onPress={() => navigation.push('Home')}>
         <Text style={styles.buttonText}>Login</Text>
       </TouchableOpacity>
     </SafeAreaView>
