@@ -16,9 +16,8 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: '#fff',
     display: 'flex',
-    alignItems: 'center',
     justifyContent: 'center',
-    width: '85%',
+    width: '100%',
     borderRadius: 10,
     padding: 20
   }

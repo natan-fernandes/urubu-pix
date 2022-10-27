@@ -23,7 +23,7 @@ const styles = StyleSheet.create({
   },
   subtitle: {
     marginHorizontal: 80,
-    color: '#666666',
+    color: '#666',
     fontWeight: '400',
     textAlign: 'center'
   },

@@ -15,19 +15,19 @@ export default function App() {
   useEffect(() => {
     setBankAccounts([
       {
-        name: 'Conta Corrente',
-        balance: 18212.23
+        name: 'NuConta',
+        balance: 3000.50
       },
       {
-        name: 'Conta Poupança',
+        name: 'Banco Inter',
         balance: 1000.00
       },
       {
-        name: 'Conta Salário',
+        name: 'iti',
         balance: 5000.00
       }
     ]);
-  }, [])
+  }, []);
 
   return (
     <AppContext.Provider value={{ bankAccounts, setBankAccounts }}>

@@ -4,10 +4,9 @@ export const HorizontalLine = () => <View style={styles.line}/>
 
 const styles = StyleSheet.create({
   line: {
-    borderBottomColor: '#00000050',
-    borderBottomWidth: StyleSheet.hairlineWidth,
-    width: '100%',
+    backgroundColor: '#00000030',
     height: 1,
-    marginVertical: 10
+    width: '100%',
+    marginVertical: 15
   }
 });
