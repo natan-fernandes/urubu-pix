@@ -1,3 +1,4 @@
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useState } from 'react';
 import { Text, View, StyleSheet, TextInput, TouchableOpacity } from 'react-native';
 import { Box } from '../components/Box';
@@ -13,13 +14,15 @@ export const AddAccountModal = (props: AddAccountModalProps) => {
   const [accountName, setAccountName] = useState<string>('');
   const [balance, setBalance] = useState<string>('');
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     const newBankAccount: BankAccount = {
       name: accountName,
       balance: balance.length === 0 ? 0 : parseFloat(balance)
     }
 
-    props.setBankAccounts([...props.bankAccounts, newBankAccount]);
+    const newBankAccounts = [...props.bankAccounts, newBankAccount];
+    props.setBankAccounts(newBankAccounts);
+    await AsyncStorage.setItem('@bankAccounts', JSON.stringify(newBankAccounts));
     setAccountName('');
     setBalance('');
   }

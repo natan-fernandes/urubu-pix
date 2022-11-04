@@ -1,33 +1,30 @@
 import React, { useState, useEffect } from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import AppContext from './src/contexts/AppContext';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { Login } from './src/pages/Login';
 import { Home } from './src/pages/Home';
 import { Success } from './src/pages/Success';
-import AppContext from './src/contexts/AppContext';
 import { BankAccount } from './src/interfaces/BankAccount';
 
 const Stack = createNativeStackNavigator();
 export default function App() {
   const [bankAccounts, setBankAccounts] = useState<BankAccount[]>([]);
 
-  // Mock
   useEffect(() => {
-    setBankAccounts([
-      {
-        name: 'NuConta',
-        balance: 3000.50
-      },
-      {
-        name: 'Banco Inter',
-        balance: 1000.00
-      },
-      {
-        name: 'iti',
-        balance: 5000.00
+    const getBankAccounts = async () => {
+      const accounts = await AsyncStorage.getItem('@bankAccounts');
+      if (accounts) {
+        setBankAccounts(JSON.parse(accounts));
       }
-    ]);
+    }
+    getBankAccounts();
   }, []);
+
+  if (!bankAccounts) {
+    return null;
+  }
 
   return (
     <AppContext.Provider value={{ bankAccounts, setBankAccounts }}>
