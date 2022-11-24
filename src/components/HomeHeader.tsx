@@ -1,13 +1,17 @@
 import { View, Text, StyleSheet, Image } from 'react-native';
 import LogoUrubu from '../../assets/logo.png';
 
-export const HomeHeader = () => {
+interface HomeHeaderProps {
+  name: string;
+}
+
+export const HomeHeader = (props: HomeHeaderProps) => {
   return (
     <View style={styles.container}>
       <Image style={styles.image} source={LogoUrubu}/>
       <View style={styles.header}>
         <Text style={styles.greeting}>Bom dia</Text>
-        <Text style={styles.username}>Urubu!</Text>
+        <Text style={styles.username}>{props.name}</Text>
       </View>
     </View>
   );

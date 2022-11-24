@@ -1,49 +1,45 @@
-import React, { useContext, useState } from 'react';
-import { getUser } from '../repository/firebase';
+import React, { useState } from 'react';
+import { addUser } from '../repository/firebase';
 import { SafeAreaView, StyleSheet, Image, Text, TouchableOpacity, TextInput } from 'react-native';
 import LogoUrubu from '../../assets/logo.png';
-import AppContext from '../contexts/AppContext';
 
-export function Login({ navigation }) {
+export function Register({ navigation }) {
+  const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
 
-  const { setUser } = useContext(AppContext);
-
-  const handleLogin = async (email: string, password: string) => {
+  const handleRegister = (name: string, email: string, password: string) => {
+    const trimmedName = name.trim();
     const trimmedEmail = email.trim();
     const trimmedPassword = password.trim();
-    if (trimmedEmail.length === 0 || trimmedPassword.length === 0) {
+    if (trimmedName.length === 0 || trimmedEmail.length === 0 || trimmedPassword.length === 0) {
       setError('Preencha todos os campos.');
       return;
     }
     
-    const user = await getUser(email, password);
-    if (!user) {
-      setError('Email e senha incorretos.');
+    const success = addUser({ name, email, password });
+    if (!success) {
+      setError('Email já cadastrado.');
       return;
     }
-    
-    setUser(user);
-    navigation.push('Home');
+
+    navigation.push('Login');
   }
 
   return (
     <SafeAreaView style={styles.container}>
       <Image style={styles.image} source={LogoUrubu}></Image>
-      <Text style={styles.text}>Urubu Finance</Text>
-      <Text style={styles.subtitle}>Organize seu dinheiro e garanta o controle total das suas finanças</Text>
+      <Text style={styles.text}>Registro</Text>
+      <Text style={styles.subtitle}>Registre uma nova conta</Text>
+      <TextInput style={styles.input} onChangeText={setName} keyboardType='default' placeholder='Nome'/>
       <TextInput style={styles.input} onChangeText={setEmail} keyboardType='email-address' placeholder='Email'/>
       <TextInput style={styles.input} onChangeText={setPassword} secureTextEntry={true} placeholder='Senha'/>
       {
         error.length > 0 && <Text style={styles.error}>{error}</Text>
       }
-      <TouchableOpacity style={styles.button} onPress={() => handleLogin(email, password)}>
-        <Text style={styles.buttonText}>Login</Text>
-      </TouchableOpacity>
-      <TouchableOpacity onPress={() => navigation.push('Register')}>
-        <Text style={styles.createAccount}>Criar uma nova conta</Text>
+      <TouchableOpacity style={styles.button} onPress={() => handleRegister(name, email, password)}>
+        <Text style={styles.buttonText}>Registrar</Text>
       </TouchableOpacity>
     </SafeAreaView>
   );
@@ -100,8 +96,4 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     marginBottom: 30
   },
-  createAccount: {
-    color: '#37b4aa',
-    marginTop: 20
-  }
 });

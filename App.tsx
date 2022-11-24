@@ -7,9 +7,12 @@ import { Login } from './src/pages/Login';
 import { Home } from './src/pages/Home';
 import { Success } from './src/pages/Success';
 import { BankAccount } from './src/interfaces/BankAccount';
+import { Register } from './src/pages/Register';
+import { User } from './src/types/user';
 
 const Stack = createNativeStackNavigator();
 export default function App() {
+  const [user, setUser] = useState<User>(undefined);
   const [bankAccounts, setBankAccounts] = useState<BankAccount[]>([]);
 
   useEffect(() => {
@@ -27,9 +30,10 @@ export default function App() {
   }
 
   return (
-    <AppContext.Provider value={{ bankAccounts, setBankAccounts }}>
+    <AppContext.Provider value={{ user, setUser, bankAccounts, setBankAccounts }}>
       <NavigationContainer>
         <Stack.Navigator initialRouteName='Login' screenOptions={{ headerShown: false }}>
+          <Stack.Screen name='Register' component={Register} />
           <Stack.Screen name='Login' component={Login} />
           <Stack.Screen name='Home' component={Home} />
           <Stack.Screen name='Success' component={Success} />

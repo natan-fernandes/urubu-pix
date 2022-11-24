@@ -11,7 +11,7 @@ import { HomeHeader } from '../components/HomeHeader';
 import { AddAccountModal } from '../components/AddAccountModal';
 
 export function Home({ navigation }) {
-  const { bankAccounts, setBankAccounts } = useContext(AppContext);
+  const { user, bankAccounts, setBankAccounts } = useContext(AppContext);
   const [isModalVisible, setModalVisible] = useState<boolean>(false);
 
   useEffect(() => {
@@ -27,7 +27,7 @@ export function Home({ navigation }) {
             </View>
           </Modal>
           <ScrollView style={styles.scrollView}>
-            <HomeHeader/>
+            <HomeHeader name={user.name}/>
             <Box>
               <TotalBalance bankAccounts={bankAccounts}/>
               <HorizontalLine/>
