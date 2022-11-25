@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { addUser } from '../repository/firebase';
 import { SafeAreaView, StyleSheet, Image, Text, TouchableOpacity, TextInput } from 'react-native';
 import LogoUrubu from '../../assets/logo.png';
+import { User } from '../interfaces/User';
 
 export function Register({ navigation }) {
   const [name, setName] = useState('');
@@ -17,8 +18,14 @@ export function Register({ navigation }) {
       setError('Preencha todos os campos.');
       return;
     }
-    
-    const success = addUser({ name, email, password });
+
+    const newUser = {
+      name: trimmedName,
+      email: trimmedEmail,
+      password: trimmedPassword,
+      bankAccounts: [],
+    } as User;
+    const success = addUser(newUser);
     if (!success) {
       setError('Email já cadastrado.');
       return;

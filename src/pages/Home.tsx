@@ -1,21 +1,26 @@
+import AppContext from '../contexts/AppContext';
 import { useContext, useState, useEffect } from 'react';
 import { LinearGradient } from 'expo-linear-gradient';
 import { SafeAreaView, StyleSheet, Modal, View, TouchableOpacity, Text, ScrollView } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import { Box } from '../components/Box';
 import { HorizontalLine } from '../components/HorizontalLine';
-import AppContext from '../contexts/AppContext';
 import { TotalBalance } from '../components/TotalBalance';
 import { AccountList } from '../components/AccountList';
 import { HomeHeader } from '../components/HomeHeader';
 import { AddAccountModal } from '../components/AddAccountModal';
+import { updateUser } from '../repository/firebase';
+import { User } from '../interfaces/User';
 
 export function Home({ navigation }) {
-  const { user, bankAccounts, setBankAccounts } = useContext(AppContext);
+  const { user, setUser, bankAccounts, setBankAccounts } = useContext(AppContext);
   const [isModalVisible, setModalVisible] = useState<boolean>(false);
 
   useEffect(() => {
     setModalVisible(false);
+    const updatedUser: User = { ...user, bankAccounts: bankAccounts };
+    setUser(updatedUser);
+    updateUser(updatedUser);
   }, [bankAccounts]);
 
   return (
@@ -31,7 +36,7 @@ export function Home({ navigation }) {
             <Box>
               <TotalBalance bankAccounts={bankAccounts}/>
               <HorizontalLine/>
-              <AccountList bankAccounts={bankAccounts}/>
+              <AccountList bankAccounts={user.bankAccounts}/>
               <TouchableOpacity style={styles.button} onPress={() => setModalVisible(true)}>
                 <Text style={styles.buttonText}>Adicionar conta bancária</Text>
               </TouchableOpacity>

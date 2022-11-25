@@ -9,7 +9,7 @@ export function Login({ navigation }) {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
 
-  const { setUser } = useContext(AppContext);
+  const { setUser, setBankAccounts} = useContext(AppContext);
 
   const handleLogin = async (email: string, password: string) => {
     const trimmedEmail = email.trim();
@@ -26,6 +26,7 @@ export function Login({ navigation }) {
     }
     
     setUser(user);
+    setBankAccounts(user.bankAccounts);
     navigation.push('Home');
   }
 
