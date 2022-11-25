@@ -1,8 +1,10 @@
 import { View, Text, StyleSheet, Image } from 'react-native';
+import { FontAwesome5 } from '@expo/vector-icons';
 import LogoUrubu from '../../assets/logo.png';
 
 interface HomeHeaderProps {
   name: string;
+  navigation: any;
 }
 
 export const HomeHeader = (props: HomeHeaderProps) => {
@@ -12,6 +14,9 @@ export const HomeHeader = (props: HomeHeaderProps) => {
       <View style={styles.header}>
         <Text style={styles.greeting}>Bom dia</Text>
         <Text style={styles.username}>{props.name}</Text>
+      </View>
+      <View style={styles.fill} onTouchStart={() => props.navigation.push('Profile')}>
+        <FontAwesome5 style={styles.editPencil} name="pencil-alt"/>
       </View>
     </View>
   );
@@ -23,7 +28,7 @@ const styles = StyleSheet.create({
     width: '100%',
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 20
+    marginBottom: 20,
   },
   image: {
     borderRadius: 50,
@@ -45,5 +50,18 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontWeight: 'bold',
     fontSize: 25
+  },
+  fill: {
+    display: 'flex',
+    alignSelf: 'flex-end',
+    marginLeft: 10,
+    marginBottom: 8,
+    padding: 5,
+    borderRadius: 5,
+    backgroundColor: '#8ccec650',
+  },
+  editPencil: {
+    color: '#fff',
+    fontSize: 14,
   }
 });

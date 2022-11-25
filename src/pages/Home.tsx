@@ -32,19 +32,13 @@ export function Home({ navigation }) {
             </View>
           </Modal>
           <ScrollView style={styles.scrollView}>
-            <HomeHeader name={user.name}/>
+            <HomeHeader name={user.name} navigation={navigation}/>
             <Box>
               <TotalBalance bankAccounts={bankAccounts}/>
               <HorizontalLine/>
               <AccountList bankAccounts={user.bankAccounts}/>
               <TouchableOpacity style={styles.button} onPress={() => setModalVisible(true)}>
                 <Text style={styles.buttonText}>Adicionar conta bancária</Text>
-              </TouchableOpacity>
-            </Box>
-            <View style={styles.break}/>
-            <Box>
-              <TouchableOpacity style={styles.button} onPress={() => navigation.push('Success')}>
-                <Text style={styles.buttonText}>Teste</Text>
               </TouchableOpacity>
             </Box>
             <View style={styles.break}/>
