@@ -31,7 +31,7 @@ export function Register({ navigation }) {
       return;
     }
 
-    navigation.push('Login');
+    navigation.pop();
   }
 
   return (

@@ -1,18 +1,18 @@
 import { View, Text, StyleSheet, Image } from 'react-native';
 import { formatNumber } from '../components/Utils';
-import LogoUrubu from '../../assets/logo.png';
+import { icons } from '../shared/icons';
 
 interface AccountItemProps {
   name: string;
   value: number;
+  icon: string;
 }
 
 export const AccountItem = (props: AccountItemProps) => {
-  const toReais = (value: number): string => value.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
-
+  const iconImage = icons.find(i => i.name === props.icon).icon;
   return (
     <View style={styles.container}>
-      <Image style={styles.image} source={LogoUrubu}></Image>
+      <Image style={styles.image} source={iconImage}></Image>
       <View>
         <Text style={styles.name}>{props.name}</Text>
         <Text style={styles.description}>Conta corrente</Text>

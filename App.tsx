@@ -8,6 +8,8 @@ import { Register } from './src/pages/Register';
 import { User } from './src/interfaces/User';
 import { BankAccount } from './src/interfaces/BankAccount';
 import { Profile } from './src/pages/Profile';
+import { Manager } from './src/pages/Manager';
+import { Account } from './src/pages/Account';
 //import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Stack = createNativeStackNavigator();
@@ -29,6 +31,8 @@ export default function App() {
           <Stack.Screen name='Login' component={Login} />
           <Stack.Screen name='Home' component={Home} />
           <Stack.Screen name='Profile' component={Profile} />
+          <Stack.Screen name='Manager' component={Manager} />
+          <Stack.Screen name='Account' component={Account} />
         </Stack.Navigator>
       </NavigationContainer>
     </AppContext.Provider>

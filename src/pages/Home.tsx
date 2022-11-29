@@ -1,44 +1,28 @@
 import AppContext from '../contexts/AppContext';
-import { useContext, useState, useEffect } from 'react';
+import { useContext, } from 'react';
 import { LinearGradient } from 'expo-linear-gradient';
-import { SafeAreaView, StyleSheet, Modal, View, TouchableOpacity, Text, ScrollView } from 'react-native';
+import { SafeAreaView, StyleSheet, View, TouchableOpacity, Text, ScrollView } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import { Box } from '../components/Box';
 import { HorizontalLine } from '../components/HorizontalLine';
 import { TotalBalance } from '../components/TotalBalance';
 import { AccountList } from '../components/AccountList';
 import { HomeHeader } from '../components/HomeHeader';
-import { AddAccountModal } from '../components/AddAccountModal';
-import { updateUser } from '../repository/firebase';
-import { User } from '../interfaces/User';
 
 export function Home({ navigation }) {
-  const { user, setUser, bankAccounts, setBankAccounts } = useContext(AppContext);
-  const [isModalVisible, setModalVisible] = useState<boolean>(false);
-
-  useEffect(() => {
-    setModalVisible(false);
-    const updatedUser: User = { ...user, bankAccounts: bankAccounts };
-    setUser(updatedUser);
-    updateUser(updatedUser);
-  }, [bankAccounts]);
+  const { user, bankAccounts } = useContext(AppContext);
 
   return (
       <LinearGradient style={styles.background} colors={['#37b4aa', '#ddd']} locations={[0.2, 0.2]}>
         <SafeAreaView style={styles.container}>
-          <Modal transparent={true} visible={isModalVisible} animationType='fade'>
-            <View style={styles.modal}>
-              <AddAccountModal bankAccounts={bankAccounts} setBankAccounts={setBankAccounts}/>
-            </View>
-          </Modal>
           <ScrollView style={styles.scrollView}>
             <HomeHeader name={user.name} navigation={navigation}/>
             <Box>
               <TotalBalance bankAccounts={bankAccounts}/>
               <HorizontalLine/>
               <AccountList bankAccounts={user.bankAccounts}/>
-              <TouchableOpacity style={styles.button} onPress={() => setModalVisible(true)}>
-                <Text style={styles.buttonText}>Adicionar conta bancária</Text>
+              <TouchableOpacity style={styles.button} onPress={() => navigation.push('Manager')}>
+                <Text style={styles.buttonText}>Gerenciar contas bancárias</Text>
               </TouchableOpacity>
             </Box>
             <View style={styles.break}/>

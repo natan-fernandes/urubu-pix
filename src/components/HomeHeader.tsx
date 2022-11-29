@@ -1,6 +1,7 @@
 import { View, Text, StyleSheet, Image } from 'react-native';
 import { FontAwesome5 } from '@expo/vector-icons';
-import LogoUrubu from '../../assets/logo.png';
+import { icons } from '../shared/icons';
+
 
 interface HomeHeaderProps {
   name: string;
@@ -8,9 +9,11 @@ interface HomeHeaderProps {
 }
 
 export const HomeHeader = (props: HomeHeaderProps) => {
+  const profilePicture = icons.find(i => i.name === 'Urubu').icon;
+
   return (
     <View style={styles.container}>
-      <Image style={styles.image} source={LogoUrubu}/>
+      <Image style={styles.image} source={profilePicture}/>
       <View style={styles.header}>
         <Text style={styles.greeting}>Bom dia</Text>
         <Text style={styles.username}>{props.name}</Text>
