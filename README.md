@@ -25,6 +25,7 @@ O usuário pode editar uma conta bancária tocando nela ou adicionar novas conta
 O usuário informa as novas informações da conta bancária e pode escolher o nome, saldo e ícone.  
 Após o preenchimento é necessário salvar as alterações, cancelar ou excluir a conta.
 
+### Vídeo de apresentação: [https://www.youtube.com/watch?v=w4sF4nuSDSA](https://www.youtube.com/watch?v=w4sF4nuSDSA)
 
 ### Imagens do App
 <img src='https://i.imgur.com/fEGd9G1.png'/>
