@@ -1,4 +1,4 @@
-import LogoUrubu from "../../assets/logo.png";
+import LogoUrubu from "../../assets/icons/urubu.png";
 import AppContext from "../contexts/AppContext";
 import { LinearGradient } from "expo-linear-gradient";
 import { StatusBar } from "expo-status-bar";
@@ -12,9 +12,12 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { FontAwesome5 } from "@expo/vector-icons";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { updateUser } from "../repository/firebase";
 import { Box } from "../components/Box";
+import { Camera, CameraType } from 'expo-camera';
+import { User } from "../interfaces/User";
+import * as FileSystem from 'expo-file-system';
 
 export function Profile({ navigation }) {
   const { user, setUser } = useContext(AppContext);
@@ -23,6 +26,11 @@ export function Profile({ navigation }) {
   const [name, setName] = useState<string>(user.name);
   const [cep, setCep] = useState<string>(user.cep);
   const [streetName, setStreetName] = useState<string>(user.cep);
+
+  const [permission, setPermission] = Camera.useCameraPermissions();
+  const [isTakingPicture, setIsTakingPicture] = useState(false);
+  const [currentPfp, setCurrentPfp] = useState(user.profilePicture);
+  const cameraRef = useRef(null);
 
   useEffect(() => {
     const sanitizedCep = cep?.replace(/\D/g, "");
@@ -41,6 +49,21 @@ export function Profile({ navigation }) {
     getStreetName();
   }, [cep]);
 
+  const handlePicture = async () => {
+    if (!permission.granted || permission.canAskAgain) await setPermission();
+    if (!permission.granted) return;
+    setIsTakingPicture(true);
+    setTimeout(async () => {
+      cameraRef.current.takePictureAsync({ skipProcessing: true })
+      .then(async (data) => {
+        const base64 = await FileSystem.readAsStringAsync(data.uri, { encoding: 'base64' })
+        const pfpBase64 = `data:image/png;base64,${base64}`
+        setCurrentPfp(pfpBase64);
+        setIsTakingPicture(false);
+      });
+    }, 1000);
+  }
+
   const handleSave = () => {
     const trimmedName = name.trim();
     if (trimmedName.length === 0) {
@@ -49,15 +72,15 @@ export function Profile({ navigation }) {
     }
 
     setName(trimmedName);
-    const newUser = {
+    const newUser: User = {
       ...user,
       name: trimmedName,
       cep: cep,
       streetName: streetName,
+      profilePicture: currentPfp,
     };
     setUser(newUser);
     updateUser(newUser);
-
     navigation.pop();
   };
 
@@ -70,10 +93,21 @@ export function Profile({ navigation }) {
       <SafeAreaView style={styles.container}>
         <Text style={styles.text}>Edite suas informações</Text>
         <View style={{ marginBottom: 20 }}>
-          <View style={styles.imageOverlay}>
-            <FontAwesome5 style={styles.pencil} name="pencil-alt" />
-          </View>
-          <Image style={styles.image} source={LogoUrubu} />
+          {
+            !isTakingPicture && (
+              <>
+                <TouchableOpacity style={styles.imageOverlay} onPress={handlePicture}>
+                  <FontAwesome5 style={styles.pencil} name="pencil-alt" />
+                </TouchableOpacity>
+                <Image style={styles.image} source={{uri: currentPfp}} />
+              </>
+            )
+          }
+          {
+            isTakingPicture && (
+              <Camera style={styles.camera} ref={cameraRef} type={CameraType.front} autoFocus={false}/>
+            )
+          }
         </View>
         <View style={styles.innerContainer}>
           <Box>
@@ -126,6 +160,15 @@ export function Profile({ navigation }) {
 }
 
 const styles = StyleSheet.create({
+  camera: {
+    borderRadius: 250,
+    resizeMode: "contain",
+    height: 250,
+    width: 250,
+    marginHorizontal: 20,
+    borderColor: "#fff",
+    borderWidth: 5,
+  },
   field: {
     marginBottom: 10,
   },
@@ -180,6 +223,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#dddddd50",
     position: "absolute",
     margin: 5,
+    marginHorizontal: 25,
     borderRadius: 250,
     height: 240,
     width: 240,
@@ -194,7 +238,7 @@ const styles = StyleSheet.create({
     height: 250,
     width: 250,
     backgroundColor: "#4dff7f",
-    marginRight: 20,
+    marginHorizontal: 20,
     borderColor: "#fff",
     borderWidth: 5,
   },

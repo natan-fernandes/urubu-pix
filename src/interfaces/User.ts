@@ -6,6 +6,7 @@ export interface User {
   password: string;
   cep: string;
   streetName: string;
+  profilePicture: string;
   bankAccounts: BankAccount[];
   setBankAccounts: (bankAccounts: BankAccount[]) => void;
 }

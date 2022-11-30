@@ -1,5 +1,5 @@
 import AppContext from '../contexts/AppContext';
-import { useContext, } from 'react';
+import { useContext } from 'react';
 import { LinearGradient } from 'expo-linear-gradient';
 import { SafeAreaView, StyleSheet, View, TouchableOpacity, Text, ScrollView } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
@@ -16,7 +16,7 @@ export function Home({ navigation }) {
       <LinearGradient style={styles.background} colors={['#37b4aa', '#ddd']} locations={[0.2, 0.2]}>
         <SafeAreaView style={styles.container}>
           <ScrollView style={styles.scrollView}>
-            <HomeHeader name={user.name} navigation={navigation}/>
+            <HomeHeader name={user.name} profilePicture={user.profilePicture} navigation={navigation}/>
             <Box>
               <TotalBalance bankAccounts={bankAccounts}/>
               <HorizontalLine/>

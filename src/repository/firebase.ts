@@ -1,7 +1,9 @@
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/firestore';
+import { getDownloadURL, getStorage, ref, uploadBytes } from 'firebase/storage';
 import { User } from '../interfaces/User';
 import { UserConverter } from './userConverter';
+import FileSystem from 'expo-file-system';
 
 const firebaseConfig = {
   apiKey: "AIzaSyALxScmc7WzL_MaVBYZxysuUt3GdYIMCtQ",
@@ -31,7 +33,7 @@ export const getUser = async (email: string, password: string): Promise<User | u
   const users = firestore.collection('users').withConverter(UserConverter);
   const existingUser = await users.where('email', '==', email).where('password', '==', password).get();
   if (existingUser.empty) return undefined;
-  
+
   const data = existingUser.docs[0].data();
   return data;
 }
@@ -43,5 +45,6 @@ export const updateUser = async (user: User): Promise<boolean> => {
 
   const doc = existingUser.docs[0];
   users.doc(doc.id).set(user);
+  
   return true;
 }
