@@ -1,5 +1,7 @@
+import { useContext } from 'react';
 import { View, Text, StyleSheet, Image } from 'react-native';
 import { formatNumber } from '../components/Utils';
+import AppContext from '../contexts/AppContext';
 import { icons } from '../shared/icons';
 
 interface AccountItemProps {
@@ -9,6 +11,7 @@ interface AccountItemProps {
 }
 
 export const AccountItem = (props: AccountItemProps) => {
+  const { showBalance } = useContext(AppContext);
   const iconImage = icons.find(i => i.name === props.icon).icon;
   return (
     <View style={styles.container}>
@@ -17,7 +20,11 @@ export const AccountItem = (props: AccountItemProps) => {
         <Text style={styles.name}>{props.name}</Text>
         <Text style={styles.description}>Conta corrente</Text>
       </View>
-      <Text style={styles.balance}>{formatNumber(props.value)}</Text>
+      <Text style={styles.balance}>
+      {
+        showBalance ? formatNumber(props.value) : 'R$ ----'
+      }
+      </Text>
     </View>
   );
 };

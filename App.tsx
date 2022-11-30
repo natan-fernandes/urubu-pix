@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import AppContext from './src/contexts/AppContext';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
@@ -10,21 +10,25 @@ import { BankAccount } from './src/interfaces/BankAccount';
 import { Profile } from './src/pages/Profile';
 import { Manager } from './src/pages/Manager';
 import { Account } from './src/pages/Account';
-//import AsyncStorage from '@react-native-async-storage/async-storage';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Stack = createNativeStackNavigator();
 export default function App() {
   const [user, setUser] = useState<User>(undefined);
   const [bankAccounts, setBankAccounts] = useState<BankAccount[]>([]);
+  const [showBalance, setShowBalance] = useState<boolean>(true);
 
-  /*
-    TODO: Adicionar opção de tirar foto ou enviar foto para o perfil.
-    TODO: Adicionar validação de campos.
-    TODO: Salvar cache no AsyncStorage pra funcionar sem internet.
-    TODO: Adicionar global styles p/ usar sempre as mesmas cores.
-  */
+  useEffect(() => {
+    const getEyeState = async () => { 
+      const state = await AsyncStorage.getItem('@eyeState');
+      if (state) setShowBalance(state === 'true');
+    }
+    getEyeState();
+  }, []);
+
+
   return (
-    <AppContext.Provider value={{ user, setUser, bankAccounts, setBankAccounts }}>
+    <AppContext.Provider value={{ user, setUser, bankAccounts, setBankAccounts, showBalance, setShowBalance }}>
       <NavigationContainer>
         <Stack.Navigator initialRouteName='Login' screenOptions={{ headerShown: false }}>
           <Stack.Screen name='Register' component={Register} />

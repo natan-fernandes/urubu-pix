@@ -1,8 +1,8 @@
 import { View, Text, StyleSheet, Image } from 'react-native';
 import { FontAwesome5 } from '@expo/vector-icons';
-import { icons } from '../shared/icons';
-import { useState, useEffect } from 'react';
-
+import { useContext } from 'react';
+import AppContext from '../contexts/AppContext';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 interface HomeHeaderProps {
   name: string;
@@ -11,7 +11,20 @@ interface HomeHeaderProps {
 }
 
 export const HomeHeader = (props: HomeHeaderProps) => {
-  const logoUrubu = icons.find(i => i.name === 'Urubu').icon;
+  const { showBalance, setShowBalance } = useContext(AppContext);
+
+  const getEyeIcon = () => {
+    return showBalance 
+      ? <FontAwesome5 style={styles.eye} name="eye"/>
+      : <FontAwesome5 style={styles.eye} name="eye-slash"/>
+  }
+
+  const handleEye = async () => {
+    const newState = !showBalance;
+    setShowBalance(newState);
+    await AsyncStorage.setItem('@eyeState', newState.toString());
+  }
+
   return (
     <View style={styles.container}>
       <Image style={styles.image} source={{uri: props.profilePicture}}/>
@@ -22,6 +35,9 @@ export const HomeHeader = (props: HomeHeaderProps) => {
       <View style={styles.fill} onTouchStart={() => props.navigation.push('Profile')}>
         <FontAwesome5 style={styles.editPencil} name="pencil-alt"/>
       </View>
+        <View style={styles.fillLast} onTouchStart={handleEye}>
+          {getEyeIcon()}
+        </View>
     </View>
   );
 }
@@ -55,6 +71,16 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     fontSize: 25
   },
+  fillLast: {
+    display: 'flex',
+    alignSelf: 'flex-end',
+    marginLeft: 'auto',
+    marginRight: 20,
+    marginBottom: 8,
+    padding: 5,
+    borderRadius: 5,
+    backgroundColor: '#8ccec650',
+  },
   fill: {
     display: 'flex',
     alignSelf: 'flex-end',
@@ -67,5 +93,9 @@ const styles = StyleSheet.create({
   editPencil: {
     color: '#fff',
     fontSize: 14,
+  },
+  eye: {
+    color: '#fff',
+    fontSize: 20,
   }
 });

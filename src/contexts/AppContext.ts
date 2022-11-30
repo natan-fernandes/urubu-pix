@@ -6,7 +6,9 @@ const AppContext = createContext({
   user: {} as User,
   setUser: (user: User) => {},
   bankAccounts: [] as BankAccount[],
-  setBankAccounts: (bankAccounts: BankAccount[]) => {}
+  setBankAccounts: (bankAccounts: BankAccount[]) => {},
+  showBalance: false,
+  setShowBalance: (showBalance: boolean) => {}
 });
 
 export default AppContext;

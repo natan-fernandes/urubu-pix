@@ -1,9 +1,7 @@
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/firestore';
-import { getDownloadURL, getStorage, ref, uploadBytes } from 'firebase/storage';
 import { User } from '../interfaces/User';
 import { UserConverter } from './userConverter';
-import FileSystem from 'expo-file-system';
 
 const firebaseConfig = {
   apiKey: "AIzaSyALxScmc7WzL_MaVBYZxysuUt3GdYIMCtQ",

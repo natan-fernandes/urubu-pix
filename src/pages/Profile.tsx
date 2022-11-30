@@ -1,4 +1,3 @@
-import LogoUrubu from "../../assets/icons/urubu.png";
 import AppContext from "../contexts/AppContext";
 import { LinearGradient } from "expo-linear-gradient";
 import { StatusBar } from "expo-status-bar";
