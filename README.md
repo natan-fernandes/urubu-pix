@@ -9,19 +9,19 @@ O usuário realiza o cadastro no aplicativo.
 O usuário realiza o login conforme cadastro.  
 O app realiza a validação de seu login, certificando que os dados existem no Firebase.
 
-- **Índice**
+- **Índice**  
 O usuário pode visualizar as contas bancárias adicionadas, seus respectivos saldos, foto de perfil e nome.  
 Há um botão para gerênciar o cadastro de contas bancárias, editar perfil e ocultar o saldo.  
 O estado do ícone de ocultar o saldo é salvo no AsyncStorge e as demais informações, no Firebase.
 
-- **Perfil**
+- **Perfil**  
 O usuário pode alterar sua foto de perfil tirando uma selfie, alterar o seu nome e localização.  
 Caso o CEP seja preenchido corretamente, o logradouro é automáticamente preenchido utilizando dados da API ViaCEP.
 
-- **Gerenciamento**
+- **Gerenciamento**  
 O usuário pode editar uma conta bancária tocando nela ou adicionar novas contas.
 
-- **Conta bancária**
+- **Conta bancária**  
 O usuário informa as novas informações da conta bancária e pode escolher o nome, saldo e ícone.  
 Após o preenchimento é necessário salvar as alterações, cancelar ou excluir a conta.
 
